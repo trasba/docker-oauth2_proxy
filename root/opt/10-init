@@ -1,0 +1,51 @@
+#!/bin/sh
+hashline="#################################"
+gr="\e[32m"
+ye="\e[33m"
+def="\e[39m"
+red="\e[31m"
+echo -e $def"\n"$hashline"\n"
+echo -e $gr"\tstarting oauth2_proxy container"$def
+# copy /config/service if /etc/service does not exist
+[[ ! -d /etc/service/oauth2_proxy ]] && \
+    echo -e $ye"\tservice folder not existing ... copying template"$def && \
+	cp -r /config/service/oauth2_proxy /etc/service
+
+[[ ! -d /etc/service/oauth2_proxy/supervise ]] && \
+    echo -e $ye"\tsupervise folder not existing ... creating"$def && \
+	mkdir -p /etc/service/oauth2_proxy/supervise
+
+
+# create cookie-secret file if not existing
+[[ ! -f /etc/service/oauth2_proxy/cookie-secret ]] && \
+    echo -e $ye"\cookie-secret not existing ... creating random base64 string"$def && \
+	cat /dev/urandom | tr -dc 'a-z-+_#~*!"§$%&()=?A-Z0-9' | fold -w 16 | head -n 1|base64 > /etc/service/oauth2_proxy/cookie-secret
+
+echo -e $gr"\treplacing cookie-secret with value from file cookie-secret"$def
+temp=$(cat /etc/service/oauth2_proxy/cookie-secret)
+sed -i 's/^.*--cookie-secret.*$/--cookie-secret='$temp' \\/g' /etc/service/oauth2_proxy/run
+unset temp
+
+#check if dummy values in run persist
+echo -e $gr"\tchecking prerequisites..."$def
+runPath='/etc/service/oauth2_proxy/run'
+temp=$(grep 'dummy' $runPath)
+ret_code=$?
+#if so echo to user and kill container
+if [ $ret_code -eq 0 ]
+  then
+    echo -e $red"\tplease configure oauth2_proxy dummy values are not accepted"$def
+    echo -e $red"\tyou need to adjust the following lines in in the 'run' file\n"$def
+    grep 'dummy' $runPath | while read -r line ; do
+    echo -e "\t$line"
+    done
+    echo -e $red"\n\tKILLING CONTAINER...\n"$def
+    echo -e $def$hashline"\n"
+    kill 1
+    exit 0;
+fi
+echo -e "\n"$gr"\teverything OK"$def
+echo -e $gr"\tstarting oauth2_proxy...\n"$def
+echo -e $def$hashline"\n"
+
+exit 0;

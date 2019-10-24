@@ -1,0 +1,14 @@
+version: "3.7"
+services:
+
+  core:
+    image: trasba/oauth2_proxy:armv7-1
+    environment:
+      - TZ=${TZ}
+      - PUID=${PUID}
+      - PGID=${PGID}
+    volumes:
+      - ./service:/etc/service
+    restart: unless-stopped
+    ports:
+      - "4180:4180"

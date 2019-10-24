@@ -1,0 +1,10 @@
+#!/bin/sh
+oauth2_proxy \
+--client-id=<dummy> \
+--client-secret=<dummy> \
+--cookie-secret=<dummy> \
+--provider=<dummy> \
+--cookie-secure=true \
+--set-xauthrequest=true \
+--authenticated-emails-file=authorized_mail \
+--http-address="0.0.0.0:4180"
