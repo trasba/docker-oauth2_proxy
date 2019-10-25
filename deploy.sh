@@ -52,7 +52,6 @@ Group=${varUser}
 [Install]
 WantedBy=docker.service
 EOF
-ln -s ${DOCKER_BASE}/${DOCKER_SERVICE}/container.conf/${DOCKER_SERVICE}.service /etc/systemd/system/
 
 #mkdir as user uid:1000 in case it does not exist
 [[ ! -d $varHome/${USER_FOLDER}/docker/${DOCKER_SERVICE} ]] && \
@@ -73,5 +72,5 @@ EOF
 #link .env file from user
 ln -s $varHome/${USER_FOLDER}/docker/${DOCKER_SERVICE}/.env ${DOCKER_BASE}/${DOCKER_SERVICE}/.env
 
-#reload daemons enable service and start service
-systemctl daemon-reload && systemctl enable ${DOCKER_SERVICE} && systemctl start ${DOCKER_SERVICE}
+#enable service and start service
+systemctl enable ${DOCKER_BASE}/${DOCKER_SERVICE}/container.conf/${DOCKER_SERVICE}.service && systemctl start ${DOCKER_SERVICE}
