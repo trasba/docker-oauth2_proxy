@@ -2,7 +2,7 @@ version: "3.7"
 services:
 
   core:
-    image: trasba/oauth2_proxy:armv7-1
+    image: trasba/oauth2_proxy:amd64-1
     environment:
       - TZ=${TZ}
       - PUID=${PUID}

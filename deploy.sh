@@ -12,7 +12,7 @@ mkdir -p ${DOCKER_BASE}/${DOCKER_SERVICE}/container.conf
 chown $varUser:$varUser ${DOCKER_BASE}/${DOCKER_SERVICE} -R
 
 ### wget github raw
-sudo -u \#1000 wget https://raw.githubusercontent.com/trasba/docker-oauth2_proxy/master/docker-compose.yml -O ${DOCKER_BASE}/oauth2_proxy/container.conf/docker-compose.yml
+sudo -u \#1000 wget https://raw.githubusercontent.com/trasba/docker-oauth2_proxy/amd64/docker-compose.yml -O ${DOCKER_BASE}/oauth2_proxy/container.conf/docker-compose.yml
 #cat > ${DOCKER_BASE}/oauth2_proxy/container.conf/docker-compose.yml <<EOF
 # version: '3.7'
 # services:

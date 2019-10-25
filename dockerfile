@@ -3,7 +3,7 @@ FROM alpine:3.10
 #install packages
 RUN apk --update add runit tini ca-certificates && \
     #get oauth-proxy from rep
-    wget https://github.com/pusher/oauth2_proxy/releases/download/v4.0.0/oauth2_proxy-v4.0.0.linux-armv6.go1.12.1.tar.gz -O - | tar -xz --strip=1 -C /usr/local/bin && \
+    wget https://github.com/pusher/oauth2_proxy/releases/download/v4.0.0/oauth2_proxy-v4.0.0.linux-amd64.go1.12.1.tar.gz -O - | tar -xz --strip=1 -C /usr/local/bin && \
     #create oauth config folder
     apk add --no-cache shadow && \
     echo "**** create abc user and make our folders ****" && \
