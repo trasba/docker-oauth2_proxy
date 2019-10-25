@@ -8,7 +8,7 @@ services:
       - PUID=${PUID}
       - PGID=${PGID}
     volumes:
-      - ./service:/etc/service
+      - ./service:/etc/service/oauth2_proxy
     restart: unless-stopped
     ports:
       - "4180:4180"
