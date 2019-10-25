@@ -15,7 +15,6 @@ echo -e $gr"\tstarting oauth2_proxy container"$def
     echo -e $ye"\tsupervise folder not existing ... creating"$def && \
 	mkdir -p /etc/service/oauth2_proxy/supervise
 
-
 # create cookie-secret file if not existing
 [[ ! -f /etc/service/oauth2_proxy/cookie-secret ]] && \
     echo -e $ye"\cookie-secret not existing ... creating random base64 string"$def && \
@@ -44,6 +43,8 @@ if [ $ret_code -eq 0 ]
     kill 1
     exit 0;
 fi
+
+#everything ok
 echo -e "\n"$gr"\teverything OK"$def
 echo -e $gr"\tstarting oauth2_proxy...\n"$def
 echo -e $def$hashline"\n"
