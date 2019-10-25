@@ -9,9 +9,10 @@ USER_FOLDER=.trasba
 varUser=$(id -nu 1000)
 varHome=$(eval echo ~$varUser)
 mkdir -p ${DOCKER_BASE}/${DOCKER_SERVICE}/container.conf
+chown $varUser:$varUser ${DOCKER_BASE}/${DOCKER_SERVICE} -R
 
 ### wget github raw
-wget https://raw.githubusercontent.com/trasba/docker-oauth2_proxy/master/docker-compose.yml -O ${DOCKER_BASE}/oauth2_proxy/container.conf/docker-compose.yml
+sudo -u \#1000 wget https://raw.githubusercontent.com/trasba/docker-oauth2_proxy/master/docker-compose.yml -O ${DOCKER_BASE}/oauth2_proxy/container.conf/docker-compose.yml
 #cat > ${DOCKER_BASE}/oauth2_proxy/container.conf/docker-compose.yml <<EOF
 # version: '3.7'
 # services:
@@ -32,7 +33,7 @@ ln -s container.conf/docker-compose.yml ${DOCKER_BASE}/${DOCKER_SERVICE}/
 #version: '3.7'
 #EOF
 
-cat > ${DOCKER_BASE}/${DOCKER_SERVICE}/container.conf/${DOCKER_SERVICE}.service <<EOF
+sudo -u \#1000 cat > ${DOCKER_BASE}/${DOCKER_SERVICE}/container.conf/${DOCKER_SERVICE}.service <<EOF
 [Unit]
 Description=${DOCKER_SERVICE} Service
 After=network.target docker.service
@@ -63,7 +64,7 @@ ln -s $varHome/${USER_FOLDER}/docker/${DOCKER_SERVICE}/service ${DOCKER_BASE}/${
 
 #create .env if not existing
 [[ ! -f $varHome/${USER_FOLDER}/docker/${DOCKER_SERVICE}/.env ]] && \
-    cat > $varHome/${USER_FOLDER}/docker/${DOCKER_SERVICE}/.env <<EOF
+    sudo -u \#1000 cat > $varHome/${USER_FOLDER}/docker/${DOCKER_SERVICE}/.env <<EOF
 PGID=1000
 PUID=1000
 TZ=CET-1CEST,M3.5.0/2,M10.5.0/3  
